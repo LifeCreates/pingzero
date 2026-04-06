@@ -2,441 +2,609 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>PingZero - Ultimate Gaming Optimizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PingZero</title>
     <style>
-        * {
-            box-sizing: border-box;
-            user-select: none; /* Prevents accidental selection on mobile */
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            margin: 0;
-            padding: 16px;
-            color: white;
+            background-color: #080808;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
             min-height: 100vh;
+            padding: 20px;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding-bottom: 30px;
-        }
-
-        .header {
+        header {
             text-align: center;
-            margin-bottom: 24px;
+            padding: 30px 0 20px 0;
         }
 
-        .header h1 {
+        .logo {
             font-size: 2.5em;
-            margin: 0;
-            background: linear-gradient(45deg, #FFD700, #FF6B6B);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(255,107,107,0.3);
+            font-weight: 900;
+            color: #ff2233;
+            text-shadow: 0 0 20px #ff2233, 0 0 40px #ff2233;
+            letter-spacing: 3px;
         }
 
-        .header p {
-            opacity: 0.8;
+        .tagline {
+            color: #888;
+            font-size: 0.9em;
             margin-top: 5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .metric-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .metric-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+        /* Score Section */
+        .score-section {
+            text-align: center;
+            padding: 20px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #1a0000, #2a0000);
+            border: 1px solid #ff223333;
             border-radius: 16px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 30px #ff223322;
         }
 
-        .metric-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #FFD700;
+        .score-title {
+            color: #ff2233;
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
         }
 
-        .metric-label {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 5px;
+        .score-number {
+            font-size: 5em;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 20px #ff2233;
+            line-height: 1;
         }
 
-        .section {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.15);
+        .score-label {
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 8px;
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-left: 3px solid #FFD700;
-            padding-left: 10px;
-        }
-
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            margin: 6px 0;
-            width: 100%;
-            cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        button:active {
-            transform: scale(0.98);
-            opacity: 0.9;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .tip {
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 12px;
-            margin: 10px 0;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status {
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 12px;
-            margin-top: 10px;
-            text-align: center;
-            font-size: 13px;
-            font-family: monospace;
-        }
-
-        .ram-bar {
-            background: rgba(255,255,255,0.2);
+        .score-bar-container {
+            background: #1a0000;
             border-radius: 10px;
-            height: 8px;
-            margin: 8px 0;
+            height: 10px;
+            margin-top: 15px;
             overflow: hidden;
         }
 
-        .ram-fill {
-            background: #4CAF50;
-            width: 0%;
+        .score-bar {
             height: 100%;
-            transition: width 0.3s;
+            width: 0%;
+            background: linear-gradient(90deg, #ff2233, #ff6644);
+            border-radius: 10px;
+            transition: width 1s ease;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        /* Cards */
+        .card {
+            background: linear-gradient(135deg, #0f0000, #1a0000);
+            border: 1px solid #ff223322;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 0 15px #ff223311;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .optimizing {
-            animation: pulse 1s infinite;
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px #ff223333;
+        }
+
+        .card h2 {
+            font-size: 1.1em;
+            color: #ff2233;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .stat {
+            font-size: 3em;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            text-shadow: 0 0 10px #ff223388;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #ff2233, #cc0011);
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        button:hover { opacity: 0.9; transform: scale(0.98); }
+        button:active { transform: scale(0.95); }
+
+        button.secondary {
+            background: transparent;
+            border: 1px solid #ff2233;
+            color: #ff2233;
+            margin-top: 8px;
+        }
+
+        /* Ping History */
+        .ping-history {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 60px;
+            margin-top: 15px;
+            padding: 5px;
+            background: #0a0000;
+            border-radius: 8px;
+        }
+
+        .ping-bar {
+            flex: 1;
+            background: #ff2233;
+            border-radius: 3px 3px 0 0;
+            min-height: 4px;
+            transition: height 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .ping-bar.latest { opacity: 1; }
+
+        /* Checklist */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #ff223311;
+            cursor: pointer;
+        }
+
+        .checklist-item:last-child { border-bottom: none; }
+
+        .check-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ff2233;
+            margin-right: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .check-circle.checked {
+            background: #ff2233;
+        }
+
+        .check-circle.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .checklist-text {
+            font-size: 0.9em;
+            color: #cccccc;
+        }
+
+        .checklist-text.checked { 
+            color: #666;
+            text-decoration: line-through;
+        }
+
+        /* DNS Guide */
+        .dns-step {
+            background: #0a0000;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .dns-step strong { color: #ff2233; }
+
+        /* Tips */
+        #tips-display {
+            color: #aaaaaa;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-top: 5px;
+        }
+
+        /* Share */
+        #share-card p {
+            color: #aaaaaa;
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .badge-good { background: #003300; color: #00ff88; }
+        .badge-ok { background: #332200; color: #ffaa00; }
+        .badge-bad { background: #330000; color: #ff2233; }
+
+        @media (min-width: 768px) {
+            main { max-width: 600px; margin: 0 auto; }
+            .logo { font-size: 3.5em; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>⚡ PingZero</h1>
-            <p>Pro Gaming Optimizer for Android</p>
+
+    <header>
+        <div class="logo">⚡ PingZero</div>
+        <p class="tagline">Pro Gaming Optimizer</p>
+    </header>
+
+    <main>
+
+        <!-- Overall Score -->
+        <div class="score-section">
+            <div class="score-title">🎯 Optimization Score</div>
+            <div class="score-number" id="score-display">--</div>
+            <div class="score-label" id="score-label">Run all checks to get your score</div>
+            <div class="score-bar-container">
+                <div class="score-bar" id="score-bar"></div>
+            </div>
+            <button onclick="runAllChecks()" style="margin-top:15px;">⚡ Run Full Optimization</button>
         </div>
 
-        <!-- Real-time Metrics -->
-        <div class="metric-grid">
-            <div class="metric-card">
-                <div class="metric-value" id="ping">--</div>
-                <div class="metric-label">📡 PING (ms)</div>
+        <!-- Ping Section -->
+        <div class="card" id="ping-card">
+            <h2>🌐 Network & Ping</h2>
+            <div class="stat" id="ping-display">-- ms</div>
+            <div class="ping-history" id="ping-history"></div>
+            <button onclick="checkPing()">Check Ping</button>
+        </div>
+
+        <!-- CPU Section -->
+        <div class="card" id="cpu-card">
+            <h2>⚙️ CPU Performance</h2>
+            <div class="stat" id="cpu-display">--</div>
+            <button onclick="checkCPU()">Check CPU</button>
+        </div>
+
+        <!-- Battery Section -->
+        <div class="card" id="battery-card">
+            <h2>🔋 Battery</h2>
+            <div class="stat" id="battery-display">-- %</div>
+            <button onclick="checkBattery()">Check Battery</button>
+        </div>
+
+        <!-- Pre-Game Checklist -->
+        <div class="card">
+            <h2>✅ Pre-Game Checklist</h2>
+            <div id="checklist">
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Close all background apps</span>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Connect to WiFi or strong 4G/5G</span>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Plug in charger</span>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Turn on Do Not Disturb</span>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Lower in-game graphics settings</span>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Restart router if ping is high</span>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="check-circle"></div>
+                    <span class="checklist-text">Keep device cool (remove case)</span>
+                </div>
             </div>
-            <div class="metric-card">
-                <div class="metric-value" id="cpu">--</div>
-                <div class="metric-label">⚙️ CPU LOAD</div>
+            <button class="secondary" onclick="resetChecklist()">Reset Checklist</button>
+        </div>
+
+        <!-- DNS Guide -->
+        <div class="card">
+            <h2>📡 DNS Optimizer</h2>
+            <p style="color:#aaa;font-size:0.9em;">Switch to Cloudflare DNS for faster gaming connections</p>
+            <div class="dns-step">
+                <strong>Android:</strong> Settings → WiFi → Long press network → Modify → Advanced → DNS → Manual → Set to <strong>1.1.1.1</strong>
             </div>
-            <div class="metric-card">
-                <div class="metric-value" id="ram">--</div>
-                <div class="metric-label">💾 RAM USED</div>
+            <div class="dns-step">
+                <strong>PC (Windows):</strong> Settings → Network → Change adapter options → Properties → IPv4 → Use DNS: <strong>1.1.1.1</strong> and <strong>1.0.0.1</strong>
+            </div>
+            <div class="dns-step">
+                <strong>Why it works:</strong> Cloudflare DNS is the world's fastest DNS — reduces lag on game servers 🚀
             </div>
         </div>
 
-        <!-- RAM Usage Bar -->
-        <div class="section">
-            <div class="ram-bar">
-                <div class="ram-fill" id="ramFill"></div>
-            </div>
-            <div class="status" id="ramStatus">Tap "Clean RAM" to free memory</div>
+        <!-- Game Tips -->
+        <div class="card">
+            <h2>🎮 Pro Gaming Tips</h2>
+            <p id="tips-display">Tap below for pro tips!</p>
+            <button onclick="showTip()">Get Pro Tip</button>
         </div>
 
-        <!-- Network & Ping Section -->
-        <div class="section">
-            <div class="section-title">🌐 NETWORK BOOST (Lower Ping)</div>
-            <button class="btn-success" onclick="optimizeDNS()">🚀 Set Cloudflare DNS (1.1.1.1)</button>
-            <button onclick="wifiTweak5GHz()">📶 Force 5GHz WiFi Band</button>
-            <button onclick="disableWiFiScanning()">🔍 Disable WiFi Scanning</button>
-            <button onclick="networkReset()">🔄 Reset Network & Flush DNS</button>
-            <button onclick="openWifiSettings()">⚙️ Open WiFi Advanced Settings</button>
-            
-            <div class="tip">
-                💡 Pro Tip: 5GHz WiFi reduces ping by 20-40% compared to 2.4GHz
-            </div>
+        <!-- Share -->
+        <div class="card" id="share-card">
+            <h2>📣 Share PingZero</h2>
+            <p>Help your squad play better!</p>
+            <button onclick="shareApp()">Share with Friends</button>
         </div>
 
-        <!-- RAM Cleaner Section -->
-        <div class="section">
-            <div class="section-title">💾 RAM CLEANER (Higher FPS)</div>
-            <button class="btn-danger" onclick="cleanRAM()">🧹 SMART RAM CLEANER</button>
-            <button onclick="deepCleanRAM()">🔧 Deep Clean (Close All Apps)</button>
-            <button onclick="showRAMHogs()">📊 Show RAM Hungry Apps</button>
-            <button onclick="openAppSettings()">⚙️ Force Stop Background Apps</button>
-            
-            <div class="tip">
-                💡 Free RAM = Smoother gameplay + Higher FPS
-            </div>
-        </div>
-
-        <!-- CPU & Performance Section -->
-        <div class="section">
-            <div class="section-title">⚡ CPU & FPS BOOST</div>
-            <button onclick="openDeveloperOptions()">🎮 Enable Force GPU Rendering</button>
-            <button onclick="openBatteryOptimization()">🔋 Disable Battery Optimization for Games</button>
-            <button onclick="openPerformanceMode()">🚀 Enable Performance Mode</button>
-            <button onclick="killBackgroundApps()">🔪 Kill Non-Essential Apps</button>
-            
-            <div class="tip">
-                💡 GPU rendering reduces CPU load = More stable FPS
-            </div>
-        </div>
-
-        <!-- WiFi Tweaks Section -->
-        <div class="section">
-            <div class="section-title">📡 ADVANCED WIFI TWEAKS</div>
-            <button onclick="wifiKeepAlive()">💓 Enable WiFi Keep-Alive</button>
-            <button onclick="disableWifiPowerSave()">🔋 Disable WiFi Power Saving</button>
-            <button onclick="setStaticIP()">📌 Set Static IP (Faster Connection)</button>
-            <button onclick="changeMTU()">📦 Optimize MTU Size (1400)</button>
-            <button onclick="openWifiConfig()">🔧 Open WiFi Config File</button>
-            
-            <div class="tip">
-                💡 Static IP reduces connection time by 1-2 seconds
-            </div>
-        </div>
-
-        <!-- Quick Tips -->
-        <div class="section">
-            <div class="section-title">🎯 QUICK GAMING TIPS</div>
-            <div class="tip">✓ Lower in-game graphics to "Low" or "Medium"</div>
-            <div class="tip">✓ Close Chrome, Facebook, Instagram before gaming</div>
-            <div class="tip">✓ Charge phone while gaming (prevents throttling)</div>
-            <div class="tip">✓ Use "Game Mode" if your phone has it</div>
-            <div class="tip">✓ Restart phone every 2-3 days</div>
-        </div>
-
-        <div class="status" id="globalStatus">
-            ✅ Ready to optimize
-        </div>
-    </div>
+    </main>
 
     <script>
-        // Simulate real-time metrics (since web can't access real hardware)
-        let pingValue = 30;
-        let cpuValue = 25;
-        let ramValue = 45;
+        // =====================
+        // PING CHECKER
+        // =====================
+        let pingHistory = [];
 
-        function updateMetrics() {
-            // Random but realistic fluctuations
-            pingValue = Math.max(15, Math.min(120, pingValue + (Math.random() - 0.5) * 8));
-            cpuValue = Math.max(10, Math.min(90, cpuValue + (Math.random() - 0.5) * 5));
-            ramValue = Math.max(20, Math.min(85, ramValue + (Math.random() - 0.5) * 3));
-            
-            document.getElementById('ping').innerHTML = Math.floor(pingValue);
-            document.getElementById('cpu').innerHTML = Math.floor(cpuValue);
-            document.getElementById('ram').innerHTML = Math.floor(ramValue);
-            
-            const fillPercent = ramValue;
-            document.getElementById('ramFill').style.width = fillPercent + '%';
-            document.getElementById('ramFill').style.backgroundColor = 
-                fillPercent > 70 ? '#ff6b6b' : (fillPercent > 40 ? '#ffd93d' : '#4CAF50');
-        }
-
-        setInterval(updateMetrics, 2000);
-        updateMetrics();
-
-        // Status update function
-        function setStatus(message, isError = false) {
-            const statusDiv = document.getElementById('globalStatus');
-            statusDiv.innerHTML = isError ? `⚠️ ${message}` : `✅ ${message}`;
-            statusDiv.style.background = isError ? 'rgba(255,0,0,0.3)' : 'rgba(0,0,0,0.5)';
-            setTimeout(() => {
-                statusDiv.style.background = 'rgba(0,0,0,0.5)';
-            }, 3000);
-        }
-
-        // ============ NETWORK OPTIMIZATIONS ============
-        function optimizeDNS() {
-            setStatus("Opening DNS settings...");
-            alert("📡 MANUAL DNS SETUP:\n\n1. Go to: Settings → Network & Internet → Private DNS\n2. Select 'Private DNS provider hostname'\n3. Enter: 1dot1dot1dot1.cloudflare-dns.com\n4. OR use: dns.google\n\n✅ This reduces ping by 15-30ms!");
-            window.location = 'intent:#Intent;action=android.settings.WIRELESS_SETTINGS;end';
-        }
-
-        function wifiTweak5GHz() {
-            setStatus("Opening WiFi band settings...");
-            alert("📶 FORCE 5GHz WiFi:\n\n1. Go to WiFi Settings → Advanced\n2. Look for 'WiFi Frequency Band'\n3. Select '5GHz Only'\n4. Reconnect to your network\n\n⚠️ Only works if router supports 5GHz!");
-            window.location = 'intent:#Intent;action=android.settings.WIFI_SETTINGS;end';
-        }
-
-        function disableWiFiScanning() {
-            setStatus("Opening location settings to disable WiFi scanning...");
-            alert("🔍 DISABLE WiFi SCANNING:\n\n1. Settings → Location → Advanced\n2. Turn OFF 'WiFi Scanning'\n3. Turn OFF 'Bluetooth Scanning'\n\n✅ This stops constant WiFi searches = lower latency!");
-            window.location = 'intent:#Intent;action=android.settings.LOCATION_SOURCE_SETTINGS;end';
-        }
-
-        function networkReset() {
-            setStatus("Resetting network...");
-            alert("🔄 NETWORK RESET:\n\nThis will:\n• Reset WiFi, Mobile Data, Bluetooth\n• Clear DNS cache\n\n✅ Do this monthly for best ping!\n\nPress OK to open reset settings.");
-            window.location = 'intent:#Intent;action=android.settings.NETWORK_OPERATOR_SETTINGS;end';
-        }
-
-        function openWifiSettings() {
-            setStatus("Opening WiFi settings...");
-            window.location = 'intent:#Intent;action=android.settings.WIFI_SETTINGS;end';
-        }
-
-        // ============ RAM CLEANER ============
-        function cleanRAM() {
-            setStatus("🧹 Cleaning RAM...", false);
-            document.getElementById('ramStatus').innerHTML = "🧹 Cleaning... Please wait";
-            
-            // Simulate RAM cleaning (in real Android, this would send intent)
-            setTimeout(() => {
-                const cleaned = Math.floor(Math.random() * 30) + 20;
-                ramValue = Math.max(20, ramValue - cleaned);
-                document.getElementById('ramStatus').innerHTML = `✅ Cleaned ~${cleaned}% RAM! ${cleaned > 35 ? 'Great improvement!' : 'Smooth now!'}`;
-                setStatus(`Freed ~${cleaned}% of RAM!`);
-                
-                // Open recent apps to swipe close
-                alert(`🧹 RAM CLEANER:\n\n✅ Freed approximately ${cleaned}% RAM\n\n📱 Press OK then swipe away recent apps for best results!`);
-            }, 500);
-            
-            // Open recent apps screen
-            window.location = 'intent:#Intent;action=android.intent.action.VIEW;end';
-        }
-
-        function deepCleanRAM() {
-            setStatus("Opening app settings for deep clean...");
-            alert("🔧 DEEP RAM CLEAN:\n\nThis will:\n• Force stop ALL background apps\n• Clear app caches\n\nPress OK to open App Settings → Select each app → Force Stop");
-            window.location = 'intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end';
-        }
-
-        function showRAMHogs() {
-            setStatus("Opening RAM usage monitor...");
-            alert("📊 TOP RAM HOGS (common culprits):\n\n• Chrome (100-300MB)\n• Facebook (150-250MB)\n• Instagram (120-200MB)\n• TikTok (150-300MB)\n• YouTube (100-200MB)\n\nClose these before gaming!");
-            window.location = 'intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end';
-        }
-
-        function openAppSettings() {
-            setStatus("Opening app settings...");
-            window.location = 'intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end';
-        }
-
-        // ============ CPU & PERFORMANCE ============
-        function openDeveloperOptions() {
-            setStatus("Opening Developer Options...");
-            alert("🎮 ENABLE GPU RENDERING:\n\n1. Settings → Developer Options\n2. Enable 'Force GPU rendering'\n3. Enable 'Disable HW overlays'\n4. Set 'Background process limit' to 2\n\n⚠️ Need Developer Options enabled first!");
-            window.location = 'intent:#Intent;action=android.settings.APPLICATION_DEVELOPMENT_SETTINGS;end';
-        }
-
-        function openBatteryOptimization() {
-            setStatus("Opening battery optimization...");
-            alert("🔋 DISABLE BATTERY OPTIMIZATION:\n\n1. Settings → Apps → Your Game\n2. Battery → Select 'Unrestricted'\n3. OR Settings → Battery → Battery Optimization → Your Game → Don't optimize\n\n✅ Prevents game lag from battery saving!");
-            window.location = 'intent:#Intent;action=android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS;end';
-        }
-
-        function openPerformanceMode() {
-            setStatus("Opening battery settings for Performance Mode...");
-            alert("🚀 ENABLE PERFORMANCE MODE:\n\n1. Settings → Battery → Power Mode\n2. Select 'High performance' or 'Performance'\n3. OR Settings → Device Care → Performance → Maximum\n\n⚠️ Uses more battery but gives higher FPS!");
-            window.location = 'intent:#Intent;action=android.settings.BATTERY_SAVER_SETTINGS;end';
-        }
-
-        function killBackgroundApps() {
-            setStatus("Opening recent apps to close them...");
-            alert("🔪 KILL BACKGROUND APPS:\n\nPress OK, then:\n1. Tap the Recent Apps button (square)\n2. Swipe away ALL apps\n3. Tap 'Clear All' if available\n\n✅ This instantly boosts FPS!");
-            window.location = 'intent:#Intent;action=android.intent.action.VIEW;end';
-        }
-
-        // ============ ADVANCED WIFI TWEAKS ============
-        function wifiKeepAlive() {
-            setStatus("Opening WiFi settings for Keep-Alive...");
-            alert("💓 ENABLE WIFI KEEP-ALIVE:\n\n1. Settings → WiFi → Advanced\n2. Keep WiFi on during sleep → 'Always'\n3. Enable 'WiFi calling' if available\n\n✅ Prevents ping spikes when phone sleeps!");
-            window.location = 'intent:#Intent;action=android.settings.WIFI_SETTINGS;end';
-        }
-
-        function disableWifiPowerSave() {
-            setStatus("Opening Developer Options for WiFi power saving...");
-            alert("🔋 DISABLE WIFI POWER SAVING:\n\n1. Settings → Developer Options\n2. Find 'WiFi Power Saving Mode'\n3. Turn it OFF\n\n✅ More battery usage but MUCH lower ping!");
-            window.location = 'intent:#Intent;action=android.settings.APPLICATION_DEVELOPMENT_SETTINGS;end';
-        }
-
-        function setStaticIP() {
-            setStatus("Opening WiFi config for Static IP...");
-            alert("📌 SET STATIC IP:\n\n1. WiFi Settings → Your Network → Modify\n2. IP Settings → Static\n3. Enter:\n   • IP: 192.168.1.xxx\n   • Gateway: 192.168.1.1\n   • DNS1: 1.1.1.1\n   • DNS2: 1.0.0.1\n\n✅ Faster connection = 5-10ms less ping!");
-            window.location = 'intent:#Intent;action=android.settings.WIFI_SETTINGS;end';
-        }
-
-        function changeMTU() {
-            setStatus("MTU optimization requires root or manual router config");
-            alert("📦 OPTIMIZE MTU SIZE:\n\nFor router (recommended):\n1. Login to router admin (192.168.1.1)\n2. Find MTU setting\n3. Change to 1400 or 1452\n\nFor Android (requires root):\n• Use 'MTU Changer' app from Play Store\n\n✅ Reduces packet fragmentation = lower ping!");
-        }
-
-        function openWifiConfig() {
-            setStatus("Opening WiFi configuration...");
-            alert("🔧 WIFI CONFIG FILE:\n\nOn rooted devices:\nEdit /data/misc/wifi/wpa_supplicant.conf\n\nAdd these lines:\n• pmf=1\n• okc=1\n• disable_scan_offload=1\n\n⚠️ Requires root access!");
-            setStatus("Root required for config editing", true);
-        }
-
-        // Add instructions on first load
-        window.addEventListener('load', () => {
-            setStatus("Ready! Tap any button to optimize your gaming performance");
-            setTimeout(() => {
-                if (confirm("🎮 Welcome to PingZero!\n\nWant a quick setup guide for best FPS & lowest ping?")) {
-                    alert("📱 QUICK SETUP (5 minutes):\n\n1. Enable Developer Options (tap Build Number 7x)\n2. Force GPU rendering\n3. Set Private DNS to 1.1.1.1\n4. Disable battery optimization for games\n5. Use 5GHz WiFi\n\nYour gaming experience will improve dramatically!");
+        async function checkPing() {
+            const display = document.getElementById('ping-display');
+            display.textContent = 'Checking...';
+            const times = [];
+            for (let i = 0; i < 5; i++) {
+                const start = performance.now();
+                try {
+                    await fetch('https://www.cloudflare.com/cdn-cgi/trace', { cache: 'no-store' });
+                    const end = performance.now();
+                    times.push(end - start);
+                } catch (e) {
+                    display.textContent = 'Error ❌';
+                    return 999;
                 }
-            }, 1000);
-        });
+            }
+            const avg = Math.round(times.reduce((a, b) => a + b) / times.length);
+            pingHistory.push(avg);
+            if (pingHistory.length > 10) pingHistory.shift();
+            updatePingGraph();
+
+            let badge, color;
+            if (avg < 50) { badge = 'EXCELLENT'; color = '#00ff88'; }
+            else if (avg < 100) { badge = 'GOOD'; color = '#ffaa00'; }
+            else { badge = 'HIGH LAG'; color = '#ff2233'; }
+
+            display.innerHTML = avg + ' ms <span class="status-badge" style="background:#1a0000;color:' + color + '">' + badge + '</span>';
+            updateScore();
+            return avg;
+        }
+
+        function updatePingGraph() {
+            const container = document.getElementById('ping-history');
+            container.innerHTML = '';
+            const max = Math.max(...pingHistory, 100);
+            pingHistory.forEach((ping, i) => {
+                const bar = document.createElement('div');
+                bar.className = 'ping-bar' + (i === pingHistory.length - 1 ? ' latest' : '');
+                const height = Math.max(4, (ping / max) * 50);
+                bar.style.height = height + 'px';
+                container.appendChild(bar);
+            });
+        }
+
+        // =====================
+        // CPU CHECKER
+        // =====================
+        function checkCPU() {
+            const display = document.getElementById('cpu-display');
+            display.textContent = 'Measuring...';
+            setTimeout(() => {
+                const start = performance.now();
+                let count = 0;
+                for (let i = 0; i < 1000000; i++) { count += Math.sqrt(i); }
+                const end = performance.now();
+                const duration = end - start;
+                let score, color, badge;
+                if (duration < 20) { score = 'Excellent'; color = '#00ff88'; badge = '🟢'; }
+                else if (duration < 50) { score = 'Good'; color = '#ffaa00'; badge = '🟡'; }
+                else if (duration < 100) { score = 'Average'; color = '#ff8800'; badge = '🟠'; }
+                else { score = 'Slow'; color = '#ff2233'; badge = '🔴'; }
+                display.textContent = badge + ' ' + score;
+                display.style.color = color;
+                display.style.fontSize = '1.8em';
+                updateScore();
+            }, 100);
+        }
+
+        // =====================
+        // BATTERY CHECKER
+        // =====================
+        async function checkBattery() {
+            const display = document.getElementById('battery-display');
+            if (!navigator.getBattery) {
+                display.textContent = 'PC Mode';
+                display.style.color = '#ff2233';
+                display.style.fontSize = '1.5em';
+                return 100;
+            }
+            try {
+                const battery = await navigator.getBattery();
+                const level = Math.round(battery.level * 100);
+                display.textContent = level + '%';
+                if (battery.charging) { display.style.color = '#00ff88'; }
+                else if (level > 50) { display.style.color = '#00ff88'; }
+                else if (level > 20) { display.style.color = '#ffaa00'; }
+                else { display.style.color = '#ff2233'; }
+                const tip = document.createElement('p');
+                tip.style.cssText = 'color:#aaa;margin-top:10px;font-size:0.9em;';
+                if (level < 20) { tip.textContent = '⚠️ Low battery! Plug in for best FPS.'; }
+                else if (!battery.charging) { tip.textContent = '💡 Plug in charger while gaming for best FPS.'; }
+                else { tip.textContent = '✅ Charging! Perfect for gaming!'; }
+                const card = document.getElementById('battery-card');
+                const existing = card.querySelector('.battery-tip');
+                if (existing) existing.remove();
+                tip.classList.add('battery-tip');
+                card.appendChild(tip);
+                updateScore();
+                return level;
+            } catch (e) {
+                display.textContent = 'Unavailable';
+                return 50;
+            }
+        }
+
+        // =====================
+        // OPTIMIZATION SCORE
+        // =====================
+        function updateScore() {
+            const pingText = document.getElementById('ping-display').textContent;
+            const cpuText = document.getElementById('cpu-display').textContent;
+            const batteryText = document.getElementById('battery-display').textContent;
+
+            let score = 0;
+            let checks = 0;
+
+            // Ping score
+            const pingMatch = pingText.match(/(\d+)\s*ms/);
+            if (pingMatch) {
+                const ping = parseInt(pingMatch[1]);
+                if (ping < 50) score += 40;
+                else if (ping < 100) score += 25;
+                else score += 10;
+                checks++;
+            }
+
+            // CPU score
+            if (cpuText.includes('Excellent')) { score += 30; checks++; }
+            else if (cpuText.includes('Good')) { score += 22; checks++; }
+            else if (cpuText.includes('Average')) { score += 15; checks++; }
+            else if (cpuText.includes('Slow')) { score += 5; checks++; }
+
+            // Battery score
+            const batteryMatch = batteryText.match(/(\d+)%/);
+            if (batteryMatch) {
+                const battery = parseInt(batteryMatch[1]);
+                if (battery > 50) score += 30;
+                else if (battery > 20) score += 20;
+                else score += 5;
+                checks++;
+            }
+
+            if (checks > 0) {
+                const finalScore = Math.min(100, Math.round(score));
+                document.getElementById('score-display').textContent = finalScore;
+                document.getElementById('score-bar').style.width = finalScore + '%';
+
+                let label;
+                if (finalScore >= 80) label = '🟢 Your setup is ready to dominate!';
+                else if (finalScore >= 50) label = '🟡 Good setup — some improvements possible';
+                else label = '🔴 Optimize your setup for better performance';
+                document.getElementById('score-label').textContent = label;
+            }
+        }
+
+        async function runAllChecks() {
+            await checkPing();
+            checkCPU();
+            await checkBattery();
+        }
+
+        // =====================
+        // CHECKLIST
+        // =====================
+        function toggleCheck(item) {
+            const circle = item.querySelector('.check-circle');
+            const text = item.querySelector('.checklist-text');
+            circle.classList.toggle('checked');
+            text.classList.toggle('checked');
+        }
+
+        function resetChecklist() {
+            document.querySelectorAll('.check-circle').forEach(c => c.classList.remove('checked'));
+            document.querySelectorAll('.checklist-text').forEach(t => t.classList.remove('checked'));
+        }
+
+        // =====================
+        // TIPS
+        // =====================
+        const tips = [
+            "🎯 Lower your in-game resolution slightly for higher FPS without losing much quality.",
+            "🌐 Use a wired connection or sit closer to your WiFi router to reduce ping.",
+            "🔋 Always plug in your charger while gaming for maximum CPU performance.",
+            "⚙️ Close all background apps before launching your game.",
+            "📶 Switch to 5GHz WiFi band for faster, more stable connection.",
+            "🖥️ On PC: Set your power plan to High Performance in Windows settings.",
+            "🎮 Lower shadow quality first — it gives the biggest FPS boost.",
+            "📱 On mobile: Enable Game Mode in your phone settings if available.",
+            "🌡️ Keep your device cool — heat causes FPS drops. Remove your case while gaming.",
+            "🔄 Restart your router before an important match for a fresh connection.",
+            "📵 Turn on Do Not Disturb mode to stop notifications during games.",
+            "⚡ On mobile: Turn off background app refresh in settings.",
+            "🎯 In FNCS: Prioritize ping over graphics — lower settings = more wins.",
+            "🖱️ On PC: Update your GPU drivers regularly for best game performance.",
+            "📡 Use Cloudflare DNS (1.1.1.1) for faster game server connections."
+        ];
+
+        let lastTip = -1;
+        function showTip() {
+            let random;
+            do { random = Math.floor(Math.random() * tips.length); } while (random === lastTip);
+            lastTip = random;
+            document.getElementById('tips-display').textContent = tips[random];
+        }
+
+        // =====================
+        // SHARE
+        // =====================
+        function shareApp() {
+            const score = document.getElementById('score-display').textContent;
+            const text = '⚡ My PingZero optimization score is ' + score + '/100! Check your ping, CPU and battery before your next match. Try it free 👉 https://lifecreates.github.io/pingzero';
+            if (navigator.share) {
+                navigator.share({ title: 'PingZero - Pro Gaming Optimizer', text: text, url: 'https://lifecreates.github.io/pingzero' });
+            } else {
+                navigator.clipboard.writeText(text).then(() => { alert('✅ Link copied! Share it with your squad!'); });
+            }
+        }
+
+        // =====================
+        // AUTO RUN ON LOAD
+        // =====================
+        window.onload = function() {
+            checkBattery();
+            showTip();
+            // Init empty ping graph
+            for (let i = 0; i < 8; i++) {
+                pingHistory.push(0);
+            }
+            updatePingGraph();
+        }
     </script>
+
 </body>
 </html>
