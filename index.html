@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PingZero</title>
     <style>
@@ -225,5 +225,20 @@
             let random;
             do { random = Math.floor(Math.random() * tips.length); } while (random === lastTip);
             lastTip = random;
-            document.getElementById('tips-display').textContent = tips[ran
-            
+            document.getElementById('tips-display').textContent = tips[random];
+        }
+
+        function shareApp() {
+            const text = '⚡ I just optimized my gaming setup with PingZero! Check your ping, CPU and battery before your next match. Try it free 👉 https://pingzero.app';
+            if (navigator.share) {
+                navigator.share({ title: 'PingZero - Pro Gaming Optimizer', text: text, url: 'https://pingzero.app' });
+            } else {
+                navigator.clipboard.writeText(text).then(() => { alert('✅ Link copied! Share it with your squad!'); });
+            }
+        }
+
+        window.onload = function() { checkBattery(); showTip(); }
+    </script>
+
+</body>
+</html>
