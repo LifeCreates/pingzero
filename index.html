@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PingZero</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #0a0a0f;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        header { text-align: center; padding: 30px 0 20px 0; }
+        .logo {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #00f5ff;
+            text-shadow: 0 0 20px #00f5ff, 0 0 40px #00f5ff;
+            letter-spacing: 3px;
+        }
+        .tagline {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .card {
+            background: linear-gradient(135deg, #0d0d1a, #1a1a2e);
+            border: 1px solid #00f5ff33;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 0 20px #00f5ff11;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px #00f5ff33;
+        }
+        .card h2 {
+            font-size: 1.1em;
+            color: #00f5ff;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .stat {
+            font-size: 3em;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            text-shadow: 0 0 10px #00f5ff88;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #00f5ff, #0077ff);
+            color: #000000;
+            font-size: 1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        button:hover { opacity: 0.9; transform: scale(0.98); }
+        button:active { transform: scale(0.95); }
+        #tips-display {
+            color: #aaaaaa;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-top: 5px;
+        }
+        #share-card p {
+            color: #aaaaaa;
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+        @media (min-width: 768px) {
+            main { max-width: 600px; margin: 0 auto; }
+            .logo { font-size: 3.5em; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">⚡ PingZero</div>
+        <p class="tagline">Pro Gaming Optimizer</p>
+    </header>
+
+    <main>
+        <div class="card" id="ping-card">
+            <h2>🌐 Network & Ping</h2>
+            <div class="stat" id="ping-display">-- ms</div>
+            <button onclick="checkPing()">Check Ping</button>
+        </div>
+
+        <div class="card" id="cpu-card">
+            <h2>⚙️ CPU Performance</h2>
+            <div class="stat" id="cpu-display">-- %</div>
+            <button onclick="checkCPU()">Check CPU</button>
+        </div>
+
+        <div class="card" id="battery-card">
+            <h2>🔋 Battery</h2>
+            <div class="stat" id="battery-display">-- %</div>
+            <button onclick="checkBattery()">Check Battery</button>
+        </div>
+
+        <div class="card" id="tips-card">
+            <h2>🎮 Game Tips</h2>
+            <p id="tips-display">Tap below for pro tips!</p>
+            <button onclick="showTip()">Get Tip</button>
+        </div>
+
+        <div class="card" id="share-card">
+            <h2>📣 Share PingZero</h2>
+            <p>Help your squad play better!</p>
+            <button onclick="shareApp()">Share with Friends</button>
+        </div>
+    </main>
+
+    <script>
+        async function checkPing() {
+            const display = document.getElementById('ping-display');
+            display.textContent = 'Checking...';
+            const times = [];
+            for (let i = 0; i < 5; i++) {
+                const start = performance.now();
+                try {
+                    await fetch('https://www.cloudflare.com/cdn-cgi/trace', { cache: 'no-store' });
+                    const end = performance.now();
+                    times.push(end - start);
+                } catch (e) {
+                    display.textContent = 'Error ❌';
+                    return;
+                }
+            }
+            const avg = Math.round(times.reduce((a, b) => a + b) / times.length);
+            display.textContent = avg + ' ms';
+            if (avg < 50) { display.style.color = '#00ff88'; }
+            else if (avg < 100) { display.style.color = '#ffff00'; }
+            else { display.style.color = '#ff4444'; }
+        }
+
+        function checkCPU() {
+            const display = document.getElementById('cpu-display');
+            display.textContent = 'Measuring...';
+            const start = performance.now();
+            let count = 0;
+            for (let i = 0; i < 1000000; i++) { count += Math.sqrt(i); }
+            const end = performance.now();
+            const duration = end - start;
+            let score, color;
+            if (duration < 20) { score = '🟢 Excellent'; color = '#00ff88'; }
+            else if (duration < 50) { score = '🟡 Good'; color = '#ffff00'; }
+            else if (duration < 100) { score = '🟠 Average'; color = '#ff8800'; }
+            else { score = '🔴 Slow'; color = '#ff4444'; }
+            display.textContent = score;
+            display.style.color = color;
+            display.style.fontSize = '1.8em';
+        }
+
+        async function checkBattery() {
+            const display = document.getElementById('battery-display');
+            if (!navigator.getBattery) {
+                display.textContent = 'PC Mode';
+                display.style.color = '#00f5ff';
+                display.style.fontSize = '1.5em';
+                return;
+            }
+            try {
+                const battery = await navigator.getBattery();
+                const level = Math.round(battery.level * 100);
+                display.textContent = level + '%';
+                if (battery.charging) { display.style.color = '#00ff88'; }
+                else if (level > 50) { display.style.color = '#00ff88'; }
+                else if (level > 20) { display.style.color = '#ffff00'; }
+                else { display.style.color = '#ff4444'; }
+                const tip = document.createElement('p');
+                tip.style.color = '#aaaaaa';
+                tip.style.marginTop = '10px';
+                tip.style.fontSize = '0.9em';
+                if (level < 20) { tip.textContent = '⚠️ Low battery! Plug in for best FPS.'; }
+                else if (!battery.charging) { tip.textContent = '💡 Plug in your charger while gaming for best FPS.'; }
+                else { tip.textContent = '✅ Charging! Perfect for gaming!'; }
+                const card = document.getElementById('battery-card');
+                const existing = card.querySelector('.battery-tip');
+                if (existing) existing.remove();
+                tip.classList.add('battery-tip');
+                card.appendChild(tip);
+            } catch (e) {
+                display.textContent = 'Unavailable';
+            }
+        }
+
+        const tips = [
+            "🎯 Lower your in-game resolution slightly for higher FPS without losing much quality.",
+            "🌐 Use a wired connection or sit closer to your WiFi router to reduce ping.",
+            "🔋 Always plug in your charger while gaming for maximum CPU performance.",
+            "⚙️ Close all background apps before launching your game.",
+            "📶 Switch to 5GHz WiFi band for faster, more stable connection.",
+            "🖥️ On PC: Set your power plan to High Performance in Windows settings.",
+            "🎮 Lower shadow quality first — it gives the biggest FPS boost.",
+            "📱 On mobile: Enable Game Mode in your phone settings if available.",
+            "🌡️ Keep your device cool — heat causes FPS drops. Remove your case while gaming.",
+            "🔄 Restart your router before an important match for a fresh connection.",
+            "📵 Turn on Do Not Disturb mode to stop notifications during games.",
+            "⚡ On mobile: Turn off background app refresh in settings.",
+            "🎯 In FNCS: Prioritize ping over graphics — lower settings = more wins.",
+            "🖱️ On PC: Update your GPU drivers regularly for best game performance.",
+            "📡 Use Cloudflare DNS (1.1.1.1) for faster game server connections."
+        ];
+
+        let lastTip = -1;
+        function showTip() {
+            let random;
+            do { random = Math.floor(Math.random() * tips.length); } while (random === lastTip);
+            lastTip = random;
+            document.getElementById('tips-display').textContent = tips[ran
+            
